@@ -12,3 +12,4 @@ C:\Users\yvesg\git\aoc2024\01\obj\Debug\net9.0\refint\01.dll
 C:\Users\yvesg\git\aoc2024\01\obj\Debug\net9.0\01.pdb
 C:\Users\yvesg\git\aoc2024\01\obj\Debug\net9.0\01.genruntimeconfig.cache
 C:\Users\yvesg\git\aoc2024\01\obj\Debug\net9.0\ref\01.dll
+C:\Users\yvesg\git\aoc2024\01\obj\Debug\net9.0\01.sourcelink.json
