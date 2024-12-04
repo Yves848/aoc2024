@@ -53,6 +53,37 @@ void part1()
   Console.WriteLine(count);
 }
 
+int isSorted(List<int> list)
+{
+  bool sorted = false;
+  int direction = 0;
+  int i = 0; 
+  while (i < list.Count-1) {
+    if (list[i] == list[i+1]) {
+      sorted = false;
+      break;
+    }
+    if (direction == 0) {
+      direction = (list[i] < list[i+1]) ? -1 : 1;
+    } else {
+      int direction2 = (list[i] < list[i+1]) ? -1 : 1;
+      sorted = direction2 == direction;
+      if (!sorted) break;
+    }
+    int delta = Math.Abs(list[i] - list[i+1]);
+    if (delta < 1 || delta > 3) {
+      i++;
+      sorted = false;
+      break; 
+    }
+    i++;
+  }
+  if (sorted) {i=-1;}
+  return i;
+}
+
+
+
 void part2()
 {
   int count = 0;
@@ -68,55 +99,19 @@ void part2()
       nums.Add(int.Parse(match.Value));
     }
     int i = 0;
-    bool damp = false;
     bool valide = true;
-    int direction = 0;
     foreach(int n in nums) {
       Console.Write($"{n} ");
     }
     Console.WriteLine();
     while (i < nums.Count - 1)
     {
-      int i2 = i + 1;
-      int diff = Math.Abs(nums[i] - nums[i2]);
-      if (diff < 1 || diff > 3)
-      {
-        valide = false;
-        if (!damp && i2 < nums.Count - 1)
-        {
-          diff = Math.Abs(nums[i] - nums[i2 + 1]);
-          if (diff >= 1 && diff <= 3)
-          {
-            valide = true;
-            damp = true;
-            nums.RemoveAt(i2);
-          }
-        }
-      }
-      if (valide)
-      {
-        if (direction == 0)
-        {
-          direction = (nums[i] <= nums[i2]) ? 1 : -1;
-        }
-        else
-        {
-          if (((nums[i] <= nums[i2]) ? 1 : -1) == direction) {
-            valide = true;
-          } else {
-            if (!damp && i2 < nums.Count - 1) {
-              if (((nums[i] <= nums[i2+1]) ? 1 : -1) == direction) {
-                damp = true;
-                valide = true;
-                nums.RemoveAt(i2);
-              } else {
-                valide = false;
-              }
-            } else {
-              valide = false;
-            }
-          }
-        }
+      int i2 = isSorted(nums);
+      if (i2 > -1) {
+        nums.RemoveAt(i2);
+        i2 = isSorted(nums);
+        valide = (i2 == -1);
+        if (!valide) break;
       }
       i++;
     }
