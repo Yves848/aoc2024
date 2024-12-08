@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\yvesg\\git\\aoc2024\\06\\06.csproj",
-      "projectName": "06",
-      "projectPath": "C:\\Users\\yvesg\\git\\aoc2024\\06\\06.csproj",
+      "projectUniqueName": "C:\\Users\\yvesg\\git\\aoc2024\\07\\07.csproj",
+      "projectName": "07",
+      "projectPath": "C:\\Users\\yvesg\\git\\aoc2024\\07\\07.csproj",
       "packagesPath": "C:\\Users\\yvesg\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\yvesg\\git\\aoc2024\\06\\obj\\",
+      "outputPath": "C:\\Users\\yvesg\\git\\aoc2024\\07\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\yvesg\\AppData\\Roaming\\NuGet\\NuGet.Config"

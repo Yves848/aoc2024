@@ -70,26 +70,23 @@ void part2()
       int r = y;
       int c = x;
       d = 0;
-      List<(int, int, int)> SEEN = new List<(int, int, int)>();
-      List<(int, int)> SEEN_RC = new List<(int, int)>();
+      HashSet<(int, int, int)> SEEN = new HashSet<(int, int, int)>();
+      HashSet<(int, int)> SEEN_RC = new HashSet<(int, int)>();
       while (true)
       {
-        if (SEEN.IndexOf((r, c, d)) > -1)
+        if (SEEN.Contains((r, c, d)))
         {
           p2++;
           break;
-        } else {
-          SEEN.Add((r, c, d));
         }
+        SEEN_RC.Add((r, c));
+        SEEN.Add((r, c, d));
         
-        if (SEEN_RC.IndexOf((r,c)) == -1) {
-          SEEN_RC.Add((r, c));
-        }
         int dr = directions[d].Item1;
         int dc = directions[d].Item2;
         int rr = r + dr;
         int cc = c + dc;
-        if (!((rr >= 0 && rr < R) && (cc >= 0 && cc < C)))
+        if (!(0 <= rr && rr < R && 0 <= cc && cc < C))
         {
           if (grid[o_r][o_c] == '#')
           {
@@ -97,15 +94,16 @@ void part2()
           }
           break;
         }
-        if ((grid[rr][cc] == '#') || rr == o_r || cc == o_c)
+        if (grid[rr][cc] == '#' || (rr == o_r && cc == o_c))
         {
           d++;
           if (d >= directions.Length) { d = 0; }
-        } else {
+        }
+        else
+        {
           r = rr;
           c = cc;
         }
-
       }
     }
   }
