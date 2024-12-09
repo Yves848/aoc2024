@@ -47,7 +47,7 @@ void part1()
 
 void part2()
 {
-  string input = File.ReadAllText(@"C:\Users\yvesg\git\aoc2024\09\text.txt").Trim();
+  string input = File.ReadAllText(@"C:\Users\yvesg\git\aoc2024\09\data.txt").Trim();
   LinkedList<int?> FAT = new LinkedList<int?>();
   int n = 1;
   for (int i = 0; i < input.Length; i++)
@@ -63,8 +63,6 @@ void part2()
     }
   }
   List<int> lFAT = FAT.Select((value, i) => ((int)value)).ToList();
-  lFAT.ForEach(p=>{Console.Write($"{((p == -1)? "." : p )}");});
-  Console.WriteLine();
   int z = lFAT.Count - 1;
   while (z > 1)
   {
@@ -80,10 +78,10 @@ void part2()
       int i = lFAT.IndexOf(-1);
       int si = i;
       int space = 1;
-      while (i < z)
+      while (i <= z)
       {
         
-        if (space == zs.Count)
+        if (space >= zs.Count)
         {
           for (int p = 0; p < space; p++)
           {
@@ -110,13 +108,10 @@ void part2()
       z--;
     }
   }
-  lFAT.ForEach(p=>{Console.Write($"{((p == -1)? "." : p )}");});
-  Console.WriteLine();
   long total = 0;
   int k = 0;
   foreach (int p in lFAT)
   {
-    // Console.WriteLine(p);
     if (p > -1)
     {
       total += (k * p);
@@ -124,9 +119,8 @@ void part2()
     k++;
     
   }
-
   Console.WriteLine($"Total : {total}");
 }
 
-//part1();
+part1();
 part2();
