@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899-12-30 00:00:00.000.763,=C:\Users\yvesg\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.002,=C:\Users\yvesg\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.747,=C:\Users\yvesg\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.002,=C:\Users\yvesg\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2024-12-11 10:55:22.588,=C:\Users\yvesg\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2024-12-11 10:55:51.364,C:\Users\yvesg\git\aoc2024\11\Delphi\umain.dfm=C:\Users\yvesg\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>2024-12-11 10:55:51.364,C:\Users\yvesg\git\aoc2024\11\Delphi\umain.pas=C:\Users\yvesg\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2024-12-11 10:55:54.664,C:\Users\yvesg\git\aoc2024\11\Delphi\Day11.dproj=C:\Users\yvesg\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+  </Transactions>
+</BorlandProject>
