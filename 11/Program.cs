@@ -1,4 +1,5 @@
-﻿using System.IO.Pipelines;
+﻿using System.Diagnostics;
+using System.IO.Pipelines;
 using System.Reflection.Metadata.Ecma335;
 
 void part1()
@@ -76,21 +77,28 @@ ulong stones(ulong stone, int num)
   return result;
 }
 
-void part2()
+void part2(int nb)
 {
   // peut aussi servir pour partie 1
+  
   List<ulong> data = File.ReadAllText(@"C:\Users\yvesg\git\aoc2024\11\data.txt").Split(' ').ToList().Select(p => ulong.Parse(p)).ToList();
+  Stopwatch stopwatch = new Stopwatch();
+  stopwatch.Start();
   ulong total = 0;
   Sol.Clear();
   data.ForEach(d =>
   {
-    total += stones(d, 75);
+    total += stones(d, nb);
   });
   Console.WriteLine(total);
+  stopwatch.Stop();
+  TimeSpan ts = stopwatch.Elapsed;
+  string elapsed = String.Format("{0:000} ms",ts.Milliseconds );
+  Console.WriteLine("Temps : " + elapsed);
 }
 
 
 
 
-part1();
-part2();
+part2(25);
+part2(75);
