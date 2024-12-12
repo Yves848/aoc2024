@@ -80,7 +80,49 @@ void part1()
 
 void part2()
 {
+int height = grid.Count;
+  int width = grid[0].Length;
+  List<HashSet<(int, int)>> regions = [];
+  HashSet<(int, int)> vus = new HashSet<(int, int)>();
 
+  Enumerable.Range(0, height).ToList().ForEach(r =>
+  {
+    Enumerable.Range(0, width).ToList().ForEach(c =>
+    {
+      if (!vus.Contains((r, c)))
+      {
+        vus.Add((r, c));
+        HashSet<(int, int)> region = [(r, c)];
+        Queue<(int, int)> terrain = new Queue<(int, int)>();
+        terrain.Enqueue((r, c));
+        char plante = grid[r][c];
+        while (terrain.Count > 0)
+        {
+          (int, int) spot = terrain.Dequeue();
+          int y = spot.Item1;
+          int x = spot.Item2;
+          directions.ToList().ForEach(D =>
+          {
+            int yy = y + D.Item1;
+            int xx = x + D.Item2;
+            if (xx >= 0 && xx < width && yy >= 0 && yy < height)
+            {
+              if (grid[yy][xx] == plante)
+              {
+                if (!region.Contains((yy, xx)))
+                {
+                  region.Add((yy, xx));
+                  vus.Add((yy, xx));
+                  terrain.Enqueue((yy,xx));
+                }
+              }
+            }
+          });
+        }
+        regions.Add(region);
+      }
+    });
+  });
 }
 
 part1();
