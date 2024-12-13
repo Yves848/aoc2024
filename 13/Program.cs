@@ -109,7 +109,7 @@ void part2()
         
         double a = (P.Item1 * Y.Item2 - P.Item2 * X.Item2) / (X.Item1 * Y.Item2 - Y.Item1 * X.Item2);
         double b = (P.Item1 - X.Item1 * a) / X.Item2;
-        Console.WriteLine($"ax: {X.Item1} ay: {Y.Item1} bx: {X.Item2} by: {Y.Item2} px: {P.Item1} py: {P.Item2} a {a} b {b}");
+        // Console.WriteLine($"ax: {X.Item1} ay: {Y.Item1} bx: {X.Item2} by: {Y.Item2} px: {P.Item1} py: {P.Item2} a {a} b {b}");
         if (a % 1 == 0 && b % 1 == 0) {
           
           cost += (double)(a * 3 + b);
@@ -120,5 +120,5 @@ void part2()
   Console.WriteLine($"cost {cost}");
 }
 
-// part1();
+part1();
 part2();
