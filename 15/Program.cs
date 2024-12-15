@@ -1,4 +1,6 @@
 ﻿using System.IO.Pipelines;
+using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 
 string input = "";
 if (args.Length > 0)
@@ -168,6 +170,8 @@ void moveRobot(char direction)
 
 void moveRobot2(char direction)
 {
+  string cratePattern = @"\[\]";
+  Regex reCrate = new Regex(cratePattern);
   if (directions.ContainsKey(direction))
   {
     // direction to move
@@ -243,26 +247,128 @@ void moveRobot2(char direction)
       }
       else
       {
-        int nc = rc + dc;
         int nr = rr + dr;
-        if (nr > grid.Count - 1 || nr < 0 || nc > grid[0].Length - 1 || nc < 0) break;
+        int nc = rc + dc;
+        string line = grid[nr];
         string target = grid[nr].Substring(nc, 1);
         if (target == "#") break;
-        if (target == ".")
+        if ("[]".Contains(target))
         {
-          // free spot, move robot
+          MatchCollection crates = reCrate.Matches(line);
+          int fr = nr;
+          HashSet<(int, int, string)> stock = new HashSet<(int, int, string)>();
+          bool move = true;
+          int nb = 0;
+          while (crates.Count > 0)
+          {
+            int i = 0;
+            int left = 0;
+            int w = 0;
+            crates.ToList().ForEach(crate =>
+            {
+              if (left == 0) left = crate.Index;
+              w += crate.Length;
+            });
+            while (i < crates.Count)
+            {
+              string line0 = grid[fr + dr];
+              if (line0.Substring(left, w).IndexOf("#") == -1)
+              {
+                Match crate = crates[i];
+                //w += crate.Length;
+                if (rc >= left && rc < left + w)
+                {
+                  for (int p = 0; p < crate.Length; p++)
+                  {
+                    if (line0.Substring(crate.Index + p, 1) == "#")
+                    {
+                      move = false;
+                      break;
+                    }
+                  }
+                  if (move)
+                  {
+                    for (int p = 0; p < crate.Length; p++)
+                    {
+                      stock.Add((fr, crate.Index + p, line.Substring(crate.Index + p, 1)));
+                    }
+                    nb++;
+                  }
+                }
+              }
+              else
+              {
+                if (stock.Count == 0)
+                {
+                  while (i < crates.Count)
+                  {
+                    Match crate = crates[i];
+                    //w += crate.Length;
+                    if (rc >= left && rc < left + w)
+                    {
+                      move = true;
+                      for (int p = 0; p < crate.Length; p++)
+                      {
+                        if (line0.Substring(crate.Index + p, 1) == "#")
+                        {
+                          move = false;
+                          break;
+                        }
+                      }
+                      if (move)
+                      {
+                        for (int p = 0; p < crate.Length; p++)
+                        {
+                          stock.Add((fr, crate.Index+p, line.Substring(crate.Index+p, 1)));
+                        }
+                      }
+                    }
+                    i++;
+                  }
+                  move = stock.Count > 0;
+                }
+                else move = false;
+                break;
+              }
+              i++;
+            }
+            fr += dr;
+            line = grid[fr];
+            crates = reCrate.Matches(line);
+          }
+          if (move)
+          {
+            stock.ToList().ForEach(crate =>
+            {
+              var (r, c, ch) = crate;
+              grid[r] = grid[r].Remove(c, 1).Insert(c, ".");
+            });
+            stock.ToList().ForEach(crate =>
+            {
+              var (r, c, ch) = crate;
+              grid[r + dr] = grid[r + dr].Remove(c, 1).Insert(c, ch);
+            });
+            grid[rr] = grid[rr].Remove(rc, 1).Insert(rc, ".");
+            grid[nr] = grid[nr].Remove(nc, 1).Insert(nc, "@");
+            robot.Item1 = nc;
+            robot.Item2 = nr;
+            break;
+          }
+          else break;
+        }
+        else
+        {
           grid[rr] = grid[rr].Remove(rc, 1).Insert(rc, ".");
           grid[nr] = grid[nr].Remove(nc, 1).Insert(nc, "@");
           robot.Item1 = nc;
           robot.Item2 = nr;
           break;
         }
-        break;
       }
     }
-    drawGrid();
-    Console.WriteLine($"direction {direction}");
-    Console.ReadLine();
+    //drawGrid();
+    // Console.WriteLine($"direction {direction}");
+    
   }
 }
 
@@ -295,7 +401,16 @@ void part2()
 {
   parseGrid2();
   drawGrid();
-  parts[1].Trim().ToList().ForEach(moveRobot2);
+  int l = parts[1].Length;
+  for(int i = 0; i < l;i++) {
+    moveRobot2(parts[1][i]);
+    drawGrid();
+    if ( i< (l-1)) {
+      Console.WriteLine($"direction {parts[1][i+1]}");
+      Console.ReadLine();
+    }
+  }
+  //parts[1].Trim().ToList().ForEach(moveRobot2);
 }
 
 // part1();
