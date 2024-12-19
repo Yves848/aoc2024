@@ -254,18 +254,10 @@ void moveRobot2(char direction)
         if (target == "#") break; // wall or edge
         if ("[]".Contains(target)) // another crate
         {
-          (int,int) bounds = (rc,rc);
-          List<List<(int,int,char)>> stock = [];
-          
-          // Find the crates on the line
-          MatchCollection crates = reCrate.Matches(line);
-
-          List<(int,int,char)> crLine = []; // find all contiguous crates in the bounds.
-          int i = 0;
-          while (i < crates.Count)
-          {
+          List<(int,int,char)> stock = [];
+          bool cont = true;
+          while (true) {
             
-            i++;
           }
         }
         else
