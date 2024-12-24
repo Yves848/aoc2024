@@ -1,8 +1,9 @@
 ﻿using System.IO.Pipelines;
+using System.Net.Http.Headers;
 using System.Runtime.InteropServices.Marshalling;
 using System.Xml.XPath;
 
-string file = args.Length > 0 ? args[1] : @"C:\Users\yvesg\git\aoc2024\23\data.txt";
+string file = args.Length > 0 ? args[1] : @"C:\Users\yvesg\git\aoc2024\23\test.txt";
 
 var data = File.ReadAllLines(file).ToList().Select(p =>
 {
@@ -89,9 +90,34 @@ void part1()
 
 void part2()
 {
+  int i = 0;
+  List<List<string>> lans = [];
+  while (i < tuples.Count)
+  {
+    var a = tuples[i][0];
+    var b = tuples[i][1];
+    List<string> lan = [a];
+    int j = 0;
+    while (j > -1)
+    {
+      j = find(b, j);
+      if (j != i && j > -1)
+      {
+        lan.Add(b);
+        b = b == tuples[j][0] ? tuples[j][1] : tuples[j][0];
+      }
+      if (j > -1 ) j++;
+    }
+    lans.Add(lan);
+    i++;
+  }
+  lans.ToList().ForEach(lan => {
+    lan.ToList().ForEach(l => Console.Write($"{l} "));
+    Console.WriteLine();
+  });
 
 }
 
-part1();
+// part1();
 
 part2();
