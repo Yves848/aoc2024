@@ -21,23 +21,27 @@ data[0].Split(',').ToList().ForEach(p =>
   pattern.Add(p.Trim());
 });
 // var sortedPattern = pattern.UnorderedItems.OrderBy(item => item.Priority).Reverse();
-Dictionary<string,int> DP = new Dictionary<string, int>();
-int validTowel(string towel)
+Dictionary<string, int> DP = new Dictionary<string, int>();
+int validTowel(string target)
 {
-  Console.WriteLine($" Towel {towel}");
-  if (DP.ContainsKey(towel)) return DP[towel];
+  Console.WriteLine($"target {target}");
+  if (DP.ContainsKey(target)) return DP[target];
   int result = 0;
-  if (towel.Trim() == "") result = 1;
-  pattern.ForEach(p =>
+  if (string.IsNullOrEmpty(target.Trim())) result = 1;
+  else
   {
-    // if (towel.Length >= p.Length) 
-    if (towel.StartsWith(p))
+    pattern.ForEach(p =>
     {
-      Console.Write($"Pattern {p}");
-      result += validTowel(towel[p.Length..]);
-    }
-  });
-  DP[towel] = result;
+      // if (towel.Length >= p.Length) 
+      if (target.Trim() != "")
+        if (target.StartsWith(p.Trim()))
+        {
+          // Console.Write($"Pattern {p}");
+          result += validTowel(target.Substring(p.Length));
+        }
+    });
+  }
+  DP[target] = result;
   return result;
 }
 
@@ -47,8 +51,10 @@ void part1()
   int total = 0;
   data[1].Split("\r\n").ToList().ForEach(towel =>
   {
+    Console.WriteLine($"Towel  {towel}");
     if (validTowel(towel) > 0) total++;
-    Console.WriteLine($"FullTowel {towel}");
+    Console.WriteLine($"Total = {total}");
+    // Console.WriteLine($"FullTowel {towel}");
   });
   Console.WriteLine($"Total = {total}");
 }

@@ -1,13 +1,7 @@
 import sys
-import re
-import heapq
-from collections import defaultdict, Counter, deque
-
 
 sys.setrecursionlimit(10**6)
 DIRS = [(-1,0),(0,1),(1,0),(0,-1)] # up right down left
-def ints(s):
-    return [int(x) for x in re.findall('-?\d+', s)]
 
 infile = sys.argv[1] if len(sys.argv)>=2 else '19.in'
 p1 = 0
@@ -15,9 +9,9 @@ p2 = 0
 D = open(infile).read().strip()
 words, targets = D.split('\n\n')
 words = words.split(', ')
-
 DP = {}
 def ways(words, target):
+    print(f'target {target}')
     if target in DP:
         return DP[target]
     ans = 0
@@ -30,9 +24,11 @@ def ways(words, target):
     return ans
 
 for target in targets.split('\n'):
+    print(f'Towel  {target}')
     target_ways = ways(words, target)
     if target_ways > 0:
         p1 += 1
+        print(p1)
     p2 += target_ways
 
 print(p1)
