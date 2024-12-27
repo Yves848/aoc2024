@@ -1,4 +1,5 @@
-﻿using System.IO.Pipelines;
+﻿using System.Collections.Immutable;
+using System.IO.Pipelines;
 using System.Net.Http.Headers;
 using System.Runtime.InteropServices.Marshalling;
 using System.Xml.XPath;
@@ -8,16 +9,30 @@ string file = args.Length > 0 ? args[1] : @"C:\Users\yvesg\git\aoc2024\23\test.t
 var data = File.ReadAllLines(file).ToList().Select(p =>
 {
   var parts = p.Split('-');
-  return new[] { parts[0], parts[1] };
+  return (parts[0], parts[1] );
 });
 
-var tuples = data.ToList();
+List<(string,string)> tuples = data.ToList();
 
 int find(string c, int i)
 {
   while (i < tuples.Count)
   {
-    if (tuples[i][0] == c || tuples[i][1] == c)
+    if (tuples[i].Item1 == c || tuples[i].Item2 == c)
+    {
+      return i;
+    }
+    i++;
+  }
+  return -1;
+}
+
+int find2(List<(string, string)> l, string c, int i)
+{
+  var l2 = l.ToList();
+  while (i < l2.Count)
+  {
+    if (l2[i].Item1 == c || l2[i].Item2 == c)
     {
       return i;
     }
@@ -35,8 +50,8 @@ void part1()
   int i = 0;
   while (i < tuples.Count)
   {
-    var a = tuples[i][0];
-    var b = tuples[i][1];
+    var a = tuples[i].Item1;
+    var b = tuples[i].Item2;
     int j = 0;
     while (j > -1 && j < tuples.Count)
     {
@@ -44,7 +59,7 @@ void part1()
       j = find(b, j);
       if (j > -1)
       {
-        string c = b == tuples[j][0] ? tuples[j][1] : tuples[j][0];
+        string c = b == tuples[j].Item1 ? tuples[j].Item2 : tuples[j].Item1;
         int k = 0;
         while (k > -1 && k < tuples.Count)
         {
@@ -55,7 +70,7 @@ void part1()
           {
             if (k != j && k != i)
             {
-              string d = c == tuples[k][0] ? tuples[k][1] : tuples[k][0];
+              string d = c == tuples[k].Item1 ? tuples[k].Item2 : tuples[k].Item1;
               if (a == d)
               {
                 List<string> result = [a, b, c];
@@ -91,31 +106,15 @@ void part1()
 void part2()
 {
   int i = 0;
-  List<List<string>> lans = [];
-  while (i < tuples.Count)
-  {
-    var a = tuples[i][0];
-    var b = tuples[i][1];
-    List<string> lan = [a];
-    int j = 0;
-    while (j > -1)
-    {
-      j = find(b, j);
-      if (j != i && j > -1)
-      {
-        lan.Add(b);
-        b = b == tuples[j][0] ? tuples[j][1] : tuples[j][0];
-      }
-      if (j > -1 ) j++;
-    }
-    lans.Add(lan);
-    i++;
-  }
-  lans.ToList().ForEach(lan => {
-    lan.ToList().ForEach(l => Console.Write($"{l} "));
-    Console.WriteLine();
+  HashSet<string> computer = [];
+  tuples.ForEach(tuple => {
+    Console.WriteLine($"({tuple.Item1}-{tuple.Item2})");
+    computer.Add(tuple.Item1);
+    computer.Add(tuple.Item2);
   });
-
+  var sortedComputers = computer.ToList();
+  sortedComputers.Sort();
+  sortedComputers.ToList().ForEach(c => Console.WriteLine(c));
 }
 
 // part1();
